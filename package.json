@@ -1,0 +1,29 @@
+{
+  "name": "phermentlandapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@a2seven/yoo-checkout": "^1.1.4",
+    "@prisma/client": "^5.11.0",
+    "axios": "^1.6.3",
+    "body-parser": "^1.20.2",
+    "creditcard-generator": "^0.0.7",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "md5": "^2.3.0",
+    "nodemon": "^3.0.1",
+    "rcon": "^1.1.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.11.0"
+  }
+}

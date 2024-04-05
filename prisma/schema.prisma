@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id        BigInt  @id @default(autoincrement())
+  nickname  String  @unique
+  password  String
+  mail      String
+  access    Boolean @default(false)
+  status    String?
+
+  userBalances  User_balances?
+  userHistories Balance_histories[]
+}
+
+model User_balances {
+  id        BigInt  @id @default(autoincrement())
+  user      Users   @relation(fields: [userId], references: [id])
+  userId    BigInt  @unique
+  card      String
+  balance   Int
+
+  balanceHistories Balance_histories[]
+}
+
+model Balance_histories {
+  id          BigInt        @id @default(autoincrement())
+  balance     User_balances @relation(fields: [balanceId], references: [id])
+  balanceId   BigInt
+  type        String
+  amount      Int
+  recipient   Users         @relation(fields: [recipientId], references: [id])
+  recipientId BigInt
+  date        DateTime      @default(now())
+}
+
+model Products {
+  id        BigInt  @id @default(autoincrement())
+  img       String
+  name      String
+  price     Int
+  chars     String[]
+  original  String
+  time      String
+}
