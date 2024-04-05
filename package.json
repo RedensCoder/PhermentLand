@@ -1,0 +1,26 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "nuxt": "^3.9.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@a2seven/yoo-checkout": "^1.1.4",
+    "@pinia/nuxt": "^0.5.1",
+    "axios": "^1.6.3",
+    "jwt-decode": "^4.0.0",
+    "pinia": "^2.1.7",
+    "uuid": "^9.0.1",
+    "validator": "^13.11.0"
+  }
+}

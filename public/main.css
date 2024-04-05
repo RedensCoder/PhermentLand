@@ -1,0 +1,39 @@
+@font-face {
+    font-family: "Minecraft";
+    src: url("./fonts/minecraft.ttf") format("truetype")
+}
+
+@font-face {
+    font-family: "Game";
+    src: url("./fonts/game.ttf") format("truetype")
+}
+
+@font-face {
+    font-family: "Gilroy";
+    src: url("./fonts/gilroy.ttf") format("truetype")
+}
+
+@font-face {
+    font-family: "Noir";
+    src: url("./fonts/noir.ttf") format("truetype")
+}
+
+body {
+    background: black;
+    overflow-x: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+
+p, a {
+    font-family: "Game";
+}
+
+a {
+    text-decoration: none;
+}
