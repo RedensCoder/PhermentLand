@@ -20,7 +20,7 @@ export const usePayStore = defineStore("pay", {
         },
         async Signup(nickname, mail, password) {
             try {
-                const req = await axios.post(`${localUrl}/user/create`, {
+                const req = await axios.post(`${url}/user/create`, {
                     nickname: nickname,
                     password: password,
                     mail: mail
@@ -33,7 +33,7 @@ export const usePayStore = defineStore("pay", {
         },
         async Signin(nickname, password) {
             try {
-                const req = await axios.post(`${localUrl}/user/auth`, {
+                const req = await axios.post(`${url}/user/auth`, {
                     nickname: nickname,
                     password: password
                 })
@@ -42,7 +42,7 @@ export const usePayStore = defineStore("pay", {
 
                 const jwt = jwtDecode(req.data);
 
-                const user = await axios.get(`${localUrl}/user/getById/${jwt.data.id}`, {
+                const user = await axios.get(`${url}/user/getById/${jwt.data.id}`, {
                     headers: {
                         Authorization: req.data
                     }
@@ -56,7 +56,7 @@ export const usePayStore = defineStore("pay", {
         async GetUser() {
             const jwt = jwtDecode(localStorage.getItem("token"));
 
-            const user = await axios.get(`${localUrl}/user/getById/${jwt.data.id}`, {
+            const user = await axios.get(`${url}/user/getById/${jwt.data.id}`, {
                 headers: {
                     Authorization: localStorage.getItem("token")
                 }
@@ -65,7 +65,7 @@ export const usePayStore = defineStore("pay", {
             return user.data;
         },
         async GetProducts() {
-            const products = await axios.get(`${localUrl}/products/getAll`)
+            const products = await axios.get(`${url}/products/getAll`)
 
             return products.data;
         }

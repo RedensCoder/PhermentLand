@@ -51,7 +51,7 @@ onBeforeMount(async () => {
       </div>
       <div class="profile">
         <div class="nickname">
-          <img :src="`/img/${user.data.status}.png`" alt="prefix">
+          <img v-if="user.data.status !== null" :src="`/img/${user.data.status}.png`" alt="prefix">
           <p class="nickname__nickname">{{ user.data.nickname }}</p>
         </div>
         <img :src="user.data.skin" alt="skin">
