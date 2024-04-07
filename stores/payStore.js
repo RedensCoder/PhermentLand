@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 
-const url = "https://phermentland.online"
+const url = "https://api.phermentland.ru"
 const localUrl = "http://localhost:8080"
 
 export const usePayStore = defineStore("pay", {
