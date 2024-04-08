@@ -4,6 +4,8 @@ import Aside from "~/components/Aside.vue";
 
 import {usePayStore} from "~/stores/payStore.js";
 
+const price = ref(50);
+
 const PAY = usePayStore();
 const router = useRouter();
 
@@ -23,6 +25,30 @@ const exit = () => {
   router.push("/")
 }
 
+const buy = async () => {
+  PAY.items.push({
+    description: `Доступ на сервер PHERMENTLAND`,
+    amount: {
+      value: `${price.value}.00`,
+      currency: 'RUB',
+    },
+    vat_code: 1,
+    quantity: 1
+  });
+
+  const data = {
+    product: "access",
+    time: null
+  }
+
+  const req = await PAY.CreatePayment(data, price.value);
+
+  if (req.confirmation.confirmation_url !== null) {
+    localStorage.setItem("pay", true);
+    window.location.replace(req.confirmation.confirmation_url);
+  }
+}
+
 onBeforeMount(async () => {
   if (localStorage.getItem("token") === null) {
     router.push("/signin")
@@ -38,16 +64,23 @@ onBeforeMount(async () => {
     <AuthHeader />
     <div class="content">
       <Aside />
-      <div class="info__info" v-if="pending">
-        <p>Загрузка...</p>
-      </div>
-      <div v-else class="info__info">
-        <p @click="copy(IP)" class="ip">{{ IP }}
-          <svg class="info__icon" xmlns="http://www.w3.org/2000/svg" height="36" width="31" viewBox="0 0 448 512"><path fill="#FFFFFF" d="M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z"/></svg>
-        </p>
-        <p v-if="data.online === true">Версия: 1.20 - 1.20.4</p>
-        <p v-else>Сервер выключен!</p>
-        <p v-if="data.online === true">Онлайн: {{ data.players.online }}/{{ data.players.max }}</p>
+      <div class="info">
+        <div class="info__info" v-if="pending">
+          <p>Загрузка...</p>
+        </div>
+        <div v-else class="info__info">
+          <p @click="copy(IP)" class="ip">{{ IP }}
+            <svg class="info__icon" xmlns="http://www.w3.org/2000/svg" height="36" width="31" viewBox="0 0 448 512"><path fill="#FFFFFF" d="M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z"/></svg>
+          </p>
+          <p v-if="data.online === true">Версия: 1.20 - 1.20.4</p>
+          <p v-else>Сервер выключен!</p>
+          <p v-if="data.online === true">Онлайн: {{ data.players.online }}/{{ data.players.max }}</p>
+        </div>
+        <div v-if="!user.data.access" class="info__info" style="margin-top: 20px;">
+          <p>У вас нет доступа на сервер!</p>
+          <p>Доступ на сервер - {{price}} Руб</p>
+          <button @click="buy">Купить Доступ</button>
+        </div>
       </div>
       <div class="profile">
         <div class="nickname">
