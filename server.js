@@ -29,9 +29,9 @@ app.use("/balance", balance);
 app.use("/products", products);
 
 // MoneyMoneyMoney
-app.post("/createOrder", authenticateToken, async (req, res) => CreatePayment(req, res) );
-app.get("/getOrders", authenticateToken, async (req, res) => GetPayments(req, res) );
-app.get("/notice", authenticateToken, async (req, res) => Notice(req, res) );
+app.post("/createOrder", async (req, res) => CreatePayment(req, res) );
+app.get("/getOrders", async (req, res) => GetPayments(req, res) );
+app.get("/notice", async (req, res) => Notice(req, res) );
 
 app.listen("8080", () => {
     console.log("Server started!");
