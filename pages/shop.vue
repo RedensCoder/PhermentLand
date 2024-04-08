@@ -13,7 +13,7 @@
 
       <AuthHeader />
 
-      <Form v-if="formIsOpen && price > 0" :title="name" :price="price" :time="time" :original="original" />
+<!--      <Form v-if="formIsOpen && price > 0" :title="name" :price="price" :time="time" :original="original" />-->
 
       <div class="content">
         <Aside />
@@ -24,7 +24,7 @@
                     <div class="privilege__chars">
                         <p class="char" v-for="c in p.chars">+ {{ c }}</p>
                     </div>
-                    <button @click="price = p.price; name = p.name; original = p.original; time = p.time; formIsOpen = true;" class="active">КУПИТЬ</button>
+                    <button @click="price = p.price; name = p.name; original = p.original; time = p.time; buy()" class="active">КУПИТЬ</button>
                   </div>
             </div>
       </div>
@@ -52,6 +52,30 @@ const formIsOpen = ref(false);
 
 let width = ref(0);
 
+const buy = async () => {
+  PAY.items.push({
+    description: `${name.value} - привилегия на сервере PHERMENTLAND`,
+    amount: {
+      value: `${price.value}.00`,
+      currency: 'RUB',
+    },
+    vat_code: 1,
+    quantity: 1
+  });
+
+  const data = {
+    product: original.value,
+    time: time.value
+  }
+
+  const req = await PAY.CreatePayment(data, price.value);
+
+  if (req.confirmation.confirmation_url !== null) {
+    localStorage.setItem("pay", true);
+    window.location.replace(req.confirmation.confirmation_url);
+  }
+}
+
 onMounted(async () => {
   width.value = window.innerWidth;
   localStorage.setItem("pay", false);
@@ -66,7 +90,7 @@ useHead({
   .main {
       background: rgb(0, 0, 0, 0.5) url("~/public/img/Background.png") fixed 50%/ cover no-repeat;
       backdrop-filter: blur(10px);
-      width: 100%;
+      min-width: 100%;
       font-family: "Game";
       text-align: center;
       min-height: 100vh;

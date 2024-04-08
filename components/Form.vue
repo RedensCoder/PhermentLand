@@ -37,11 +37,10 @@ const buy = async () => {
 
     const data = {
         product: props.original,
-        nickname: nick.value,
         time: props.time
     }
 
-    const req = await PAY.CreatePayment(data, email.value, props.price);
+    const req = await PAY.CreatePayment(data, props.price);
 
     if (req.confirmation.confirmation_url !== null) {
         localStorage.setItem("pay", true);

@@ -8,12 +8,14 @@ const localUrl = "http://localhost:8080"
 export const usePayStore = defineStore("pay", {
     state: () => { return { items: [] } },
     actions: {
-        async CreatePayment(data, email, price) {
+        async CreatePayment(data, price) {
+            const user = await this.GetUser();
+
             const req = await axios.post(`${url}/createOrder`, {
                 items: this.items,
                 summ: price,
-                data: data,
-                email: email
+                data: {...data, nickname: user.nickname},
+                email: user.mail
             });
 
             return req.data;
