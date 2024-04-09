@@ -1,12 +1,13 @@
 <script setup>
   import Header from "~/components/Header.vue";
   import Footer from "~/components/Footer.vue";
+  import axios from "axios";
 
   let width = ref(0);
 
   const IP = ref("play.phermentland.ru")
 
-  const { data, pending } = useFetch(`https://api.mcstatus.io/v2/status/java/${IP.value}`);
+  const data = reactive( { value: { online: false } });
 
   const link = (link) => {
     window.open(link, "_blank");
@@ -20,6 +21,12 @@
     width.value = window.innerWidth;
     localStorage.setItem("pay", false);
   });
+
+  onBeforeMount(async () => {
+    const req = await axios.get(`https://api.mcstatus.io/v2/status/java/${IP.value}`);
+
+    data.value = req.data;
+  })
 
   useHead({
     title: "PHERMENTLAND - Ванильный Майнкрафт",
@@ -42,16 +49,16 @@
 
     <div class="info">
       <h3>Сервер</h3>
-      <div class="info__info" v-if="pending">
-       <p>Загрузка...</p>
-      </div>
-      <div v-else class="info__info">
+<!--      <div class="info__info" v-if="!data.online">-->
+<!--       <p>Сервер выключен!</p>-->
+<!--      </div>-->
+      <div class="info__info">
         <p @click="copy(IP)" class="ip">{{ IP }} 
           <svg xmlns="http://www.w3.org/2000/svg" height="36" width="31" viewBox="0 0 448 512"><path fill="#FFFFFF" d="M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z"/></svg>
         </p>
-        <p v-if="data.online === true">Версия: 1.20 - 1.20.4</p>
+        <p v-if="data.value.online === true">Версия: 1.20 - 1.20.4</p>
         <p v-else>Сервер выключен!</p>
-        <p v-if="data.online === true">Онлайн: {{ data.players.online }}/{{ data.players.max }}</p>
+        <p v-if="data.value.online === true">Онлайн: {{ data.value.players.online }}/{{ data.value.players.max }}</p>
       </div>
     </div>
 

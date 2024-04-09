@@ -18,7 +18,7 @@
       <div class="content">
         <Aside />
             <div class="privilegies">
-                <div class="privilegies__privilege" v-for="p in products.data.value" :key="p.id">
+                <div class="privilegies__privilege" v-for="p in products.data" :key="p.id">
                     <img :src="p.img" alt="icon">
                     <p class="privilege__title">{{ p.name }} - {{ p.price }} Руб</p>
                     <div class="privilege__chars">
@@ -46,7 +46,7 @@ const time = ref("");
 
 const PAY = usePayStore();
 
-const products = await useAsyncData(() => PAY.GetProducts());
+const products = reactive({ data: null })
 
 const formIsOpen = ref(false);
 
@@ -80,6 +80,10 @@ onMounted(async () => {
   width.value = window.innerWidth;
   localStorage.setItem("pay", false);
 });
+
+onBeforeMount(async () => {
+  products.data = await PAY.GetProducts();
+})
 
 useHead({
     title: "Магазин Привилегий"
