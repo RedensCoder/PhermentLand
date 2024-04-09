@@ -28,7 +28,7 @@ router.post("/create", async (req, res) => {
             nickname: req.body.nickname,
             password: md5(req.body.password),
             mail: req.body.mail,
-            access: true,
+            access: false,
             status: null
         }
     });
