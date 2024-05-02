@@ -20,7 +20,7 @@ const signup = async () => {
     return alert("Укажите нормальную почту!");
   }
 
-  if (!validator.isStrongPassword(pass.value)) {
+  if (pass.value.trim().length <= 4) {
     return alert("У вас лёгкий пароль!");
   }
 
